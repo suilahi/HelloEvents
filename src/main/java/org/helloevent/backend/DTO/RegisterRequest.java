@@ -1,5 +1,4 @@
 package org.helloevent.backend.DTO;
-package org.example.helloeventsapp.DTO;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -2,7 +2,7 @@ package org.helloevent.backend.Config;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.example.helloeventsapp.models.Role;
+import org.helloevent.backend.Entity.Role;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -27,4 +27,5 @@ public class JwtUtil {
     private Date generateExpirationDate() {
         return new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24); // 24h
     }
+
 }
