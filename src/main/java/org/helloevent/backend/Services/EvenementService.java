@@ -27,11 +27,16 @@ public class EvenementService {
     public Evenement findById(int id) {
         return repo.findById(id).get();
     }
+
     public Evenement update(Evenement e) {
         return repo.save(e);
     }
 
     public void delete(int id) {
         repo.deleteById(id);
+    }
+
+    public List<Evenement> findByDate(String date){
+        return repo.findByDate(date);
     }
 }

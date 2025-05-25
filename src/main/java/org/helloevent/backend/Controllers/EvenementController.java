@@ -1,10 +1,15 @@
 package org.helloevent.backend.Controllers;
 
 import jakarta.persistence.Id;
+import org.helloevent.backend.Entity.Categorie;
 import org.helloevent.backend.Entity.Evenement;
+import org.helloevent.backend.Repositories.EvenementRepository;
 import org.helloevent.backend.Services.EvenementService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.data.jpa.domain.AbstractPersistable_.ID;
@@ -20,23 +25,41 @@ public class EvenementController {
         this.evenementService = evenementService;
     }
 
-    @PostMapping
-    public Evenement ajouterEvenement(@RequestBody Evenement evenement) {
-        return evenementService.create(evenement);
-    }
-
-    @GetMapping("/Id")
+    @GetMapping("/get")
     public List<Evenement> getEvenements() {
         return evenementService.findAll();
     }
 
-    @PutMapping
-    public Evenement updateEvenement(@RequestBody Evenement evenement) {
+    @PostMapping
+
+    public ResponseEntity<?> ajouter(@RequestBody Evenement evenement) {
+
+        System.out.println("[DEBUG] Catégorie reçue : " + evenement.getCategorie());
+
+        if (evenement.getCategorie() == null) {
+            System.out.println("[ERREUR] Catégorie est nulle ou invalide !");
+            return ResponseEntity
+                    .badRequest()
+                    .body("Erreur : la catégorie est invalide ou manquante. Valeurs possibles : " + Arrays.toString(Categorie.values()));
+        }
+
+        System.out.println("[INFO] Création de l'événement avec catégorie : " + evenement.getCategorie());
+        Evenement savedEvent = evenementService.create(evenement);
+        return ResponseEntity.ok(savedEvent);
+    }
+
+    @PutMapping("/put")
+    public Evenement modification(@RequestBody Evenement evenement) {
         return evenementService.update(evenement);
     }
 
-    @DeleteMapping("/{Id}")
-    public Evenement deleteEvenement(@RequestBody int Id) {
-        return evenementService.findById(Id);
+    @DeleteMapping("/delete/{id}")
+    public void deleteEvenement(@PathVariable int id) {
+        evenementService.delete(id);
+    }
+
+    @GetMapping("/serch/{date}")
+    public List<Evenement> findByDate(@PathVariable String date) {
+        return evenementService.findByDate(date);
     }
 }

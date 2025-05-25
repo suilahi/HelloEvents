@@ -15,8 +15,16 @@ public class ClientService {
     public ClientService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
+
     public List<Client> getAllClients() {
         return clientRepository.findAll();
     }
 
+    public void deleteClient(long id) {
+        clientRepository.deleteById(id);
+    }
+
+    public Client updateClients( Client clients) {
+        return clientRepository.save(clients);
+    }
 }
